@@ -9,6 +9,7 @@ Pytest Configuration and Fixtures for Thalos Prime
 """
 
 import pytest
+import random
 import sys
 from pathlib import Path
 
@@ -70,6 +71,13 @@ def api_instance():
     from interfaces.api.server import API
     api = API()
     return api
+
+
+@pytest.fixture(autouse=True)
+def fixed_random_seed():
+    """Fix random seed before each test to prevent non-deterministic failures."""
+    random.seed(42)
+    yield
 
 
 @pytest.fixture(autouse=True)
